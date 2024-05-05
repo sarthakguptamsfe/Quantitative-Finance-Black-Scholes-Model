@@ -3,14 +3,9 @@ numpy
 pandas
 pydeck
 streamlit
-wrds
-scipy.stats
 py_vollib
 datetime
-math
 yfinance
 py_vollib
 scipy
-scipy.stats
 matplotlib
-
