@@ -1,5 +1,6 @@
 import streamlit as st
 import math
+import googlefinance
 from datetime import date, timedelta
 import scipy 
 from scipy import stats
@@ -9,15 +10,8 @@ import matplotlib
 import py_vollib
 from py_vollib.black_scholes import black_scholes
 from py_vollib.black_scholes.greeks import analytical
-import matplotlib.pyplot as plt
-import quandl
+import pandas_datareader.data as web
 ##
-# Streamlit page setup
-st.title('Quantitative Finance: Black Scholes Model for European Option Pricing')
-
-# Quandl API Configuration
-quandl.ApiConfig.api_key = 'W-DzNTmgnYb9Kcm-Pirx'
-
 # Default start date setup
 default_start_date = date(2024, 5, 1)
 
@@ -38,20 +32,22 @@ end_date = st.date_input("Select the end date for stock data:", start_date + tim
 
 # Fetching real-time stock data
 try:
-    stock_data = quandl.get("WIKI/" + stock_symbol, start_date=start_date, end_date=end_date)
-    if stock_data.empty:
-        st.error("No data available for the selected date range. Please choose another date.")
-        S = None
-    else:
-        S = stock_data['Adj. Close'][-1]  # Adjust based on the column name in the dataset
+    stock_data = web.DataReader(stock_symbol, 'yahoo', start_date, end_date)
+    # Check if data frame is not empty and column exists
+    if not stock_data.empty and 'Adj Close' in stock_data.columns:
+        S = stock_data['Adj Close'][-1]
         st.write(f"Current Adjusted Close Price of {stock_symbol}: {S:.2f}")
+    else:
+        st.error("No data available for the selected date range or missing 'Adj Close'. Please choose another date.")
+        S = None
 except Exception as e:
-    st.error(f"Error fetching stock data: {e}")
+    st.error(f"Error fetching stock data: {str(e)}")
     S = None
 
+# Handling when S is not None to proceed with further calculations (add your option pricing calculations here)
 if S is not None:
-    # Adjust stock price for dividends
-    S_adjusted = S * math.exp(-q * T)
+    # (Continue with your Black-Scholes calculations and other code as before)
+    pass
 
     # Calculating d1 and d2
     def calculate_d1_d2(S, K, T, r, Vol):
