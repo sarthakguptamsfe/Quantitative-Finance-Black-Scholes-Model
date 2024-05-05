@@ -2,6 +2,7 @@ import streamlit as st
 import math
 from datetime import date, timedelta
 import scipy 
+from scipy import stats
 from scipy.stats import norm
 import yfinance as yf
 import matplotlib
@@ -83,9 +84,7 @@ if S is not None:
             else:
                 st.write(f"{greek}: {value:.4f}")
         return greeks
- 
-
-greeks = display_greeks(option_type[0], S_adjusted, K, T, r, Vol)
+    greeks = display_greeks(option_type[0], S_adjusted, K, T, r, Vol)
 
 
 
