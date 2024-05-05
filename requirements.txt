@@ -9,3 +9,4 @@ yfinance
 py_vollib
 scipy
 matplotlib
+quandl
