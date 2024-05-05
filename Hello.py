@@ -10,9 +10,13 @@ import py_vollib
 from py_vollib.black_scholes import black_scholes
 from py_vollib.black_scholes.greeks import analytical
 import matplotlib.pyplot as plt
+import quandl
 ##
 # Streamlit page setup
 st.title('Quantitative Finance: Black Scholes Model for European Option Pricing')
+
+# Quandl API Configuration
+quandl.ApiConfig.api_key = 'W-DzNTmgnYb9Kcm-Pirx'
 
 # Default start date setup
 default_start_date = date(2024, 5, 1)
@@ -34,12 +38,12 @@ end_date = st.date_input("Select the end date for stock data:", start_date + tim
 
 # Fetching real-time stock data
 try:
-    stock_data = yf.download(stock_symbol, start=start_date, end=end_date)
+    stock_data = quandl.get("WIKI/" + stock_symbol, start_date=start_date, end_date=end_date)
     if stock_data.empty:
         st.error("No data available for the selected date range. Please choose another date.")
         S = None
     else:
-        S = stock_data['Adj Close'].iloc[-1]
+        S = stock_data['Adj. Close'][-1]  # Adjust based on the column name in the dataset
         st.write(f"Current Adjusted Close Price of {stock_symbol}: {S:.2f}")
 except Exception as e:
     st.error(f"Error fetching stock data: {e}")
