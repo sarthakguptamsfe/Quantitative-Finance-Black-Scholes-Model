@@ -1,17 +1,20 @@
 import streamlit as st
 import math
-import googlefinance
+import requests
 from datetime import date, timedelta
-import scipy 
+import scipy
 from scipy import stats
 from scipy.stats import norm
-import yfinance as yf
-import matplotlib
-import py_vollib
+import matplotlib.pyplot as plt
 from py_vollib.black_scholes import black_scholes
 from py_vollib.black_scholes.greeks import analytical
-import pandas_datareader.data as web
-##
+
+# Streamlit page setup
+st.title('Quantitative Finance: Black Scholes Model for European Option Pricing')
+
+# API key for FinancialModelingPrep
+API_KEY = '0uTB4phKEr4dHcB2zJMmVmKUcywpkxDQ'
+
 # Default start date setup
 default_start_date = date(2024, 5, 1)
 
@@ -26,28 +29,29 @@ q = st.number_input("Enter the annual dividend yield as a decimal (e.g., 0.01 fo
 # Selection for call or put option
 option_type = st.selectbox("Choose the option type:", ('call', 'put'))
 
-# Date input for stock data
-start_date = st.date_input("Select the start date for stock data:", default_start_date)
-end_date = st.date_input("Select the end date for stock data:", start_date + timedelta(days=1))
-
 # Fetching real-time stock data
 try:
-    stock_data = web.DataReader(stock_symbol, 'yahoo', start_date, end_date)
-    # Check if data frame is not empty and column exists
-    if not stock_data.empty and 'Adj Close' in stock_data.columns:
-        S = stock_data['Adj Close'][-1]
-        st.write(f"Current Adjusted Close Price of {stock_symbol}: {S:.2f}")
-    else:
-        st.error("No data available for the selected date range or missing 'Adj Close'. Please choose another date.")
+    response = requests.get(f"https://financialmodelingprep.com/api/v3/quote/{stock_symbol}?apikey={API_KEY}")
+    stock_data = response.json()
+    if not stock_data or 'price' not in stock_data[0]:
+        st.error("No data available for the selected stock. Please choose another stock.")
         S = None
+    else:
+        S = stock_data[0]['price']
+        st.write(f"Current Price of {stock_symbol}: {S:.2f}")
 except Exception as e:
     st.error(f"Error fetching stock data: {str(e)}")
     S = None
 
-# Handling when S is not None to proceed with further calculations (add your option pricing calculations here)
+# Further processing only if S is not None
 if S is not None:
+    # Calculating adjusted stock price for dividends
+    S_adjusted = S * math.exp(-q * T)
+
+    # Black-Scholes calculations and display results
     # (Continue with your Black-Scholes calculations and other code as before)
-    pass
+
+    # The rest of your existing option pricing and Greeks calculation code...
 
     # Calculating d1 and d2
     def calculate_d1_d2(S, K, T, r, Vol):
