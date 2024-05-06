@@ -10,9 +10,6 @@ from py_vollib.black_scholes.greeks import analytical
 image_url = "https://i.postimg.cc/bvqxzkwp/abc.jpg"
 st.image(image_url, use_column_width=True)
 
-# Streamlit page setup
-st.title('Quantitative Finance: Black Scholes Model for European Option Pricing')
-
 # API key for FinancialModelingPrep
 API_KEY = '0uTB4phKEr4dHcB2zJMmVmKUcywpkxDQ'
 
@@ -39,7 +36,7 @@ try:
         S = None
     else:
         S = data['historical'][0]['close']  # Fetch the closing price of the selected date
-        st.write(f"Stock Price of {stock_symbol} on {selected_date}: {S:.2f}")
+        st.subheader(f"Stock Price of {stock_symbol} on {selected_date}: {S:.2f}")
 except Exception as e:
     st.error(f"Error fetching stock data: {str(e)}")
     S = None
@@ -63,7 +60,7 @@ if S is not None:
     else:
         price = K * math.exp(-r * T) * norm.cdf(-d2) - S_adjusted * norm.cdf(-d1)
 
-    st.write(f"{option_type.capitalize()} Option Price: {price:.2f}")
+    st.subheader(f"{option_type.capitalize()} Option Price: {price:.2f}")
     # Display Greeks
     greeks = {
         "Delta": analytical.delta(option_type[0], S_adjusted, K, T, r, Vol),
