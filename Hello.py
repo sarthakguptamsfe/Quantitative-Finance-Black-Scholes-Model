@@ -19,9 +19,9 @@ API_KEY = '0uTB4phKEr4dHcB2zJMmVmKUcywpkxDQ'
 # User inputs for stock symbol, strike price, etc.
 stock_symbol = st.text_input("Enter the stock symbol (e.g., AAPL for Apple, META for Facebook):", 'AAPL')
 K = st.number_input("Enter the strike price:", value=100.0)
-days = st.number_input("Enter the duration of the option in days:", min_value=1, max_value=3650, value=1, step=1)
 # Select the date for fetching the stock price
 selected_date = st.date_input("Select the date for fetching the stock price:", date.today())
+days = st.number_input("Enter the duration of the option in days:", min_value=1, max_value=3650, value=1, step=1)
 T = days / 365.25  # Convert days to years for the formula
 Vol = st.number_input("Enter the volatility as a decimal:", value=0.2)
 r = st.number_input("Enter the current risk-free rate as a decimal:", value=0.05)
