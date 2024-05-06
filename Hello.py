@@ -5,7 +5,7 @@ from datetime import date, timedelta
 from scipy.stats import norm
 from py_vollib.black_scholes import black_scholes
 from py_vollib.black_scholes.greeks import analytical
-
+st.set_page_config(page_title="Quantitative Finance: BSM")
 # Display the header image
 image_url = "https://i.postimg.cc/bvqxzkwp/abc.jpg"
 st.image(image_url, use_column_width=True)
