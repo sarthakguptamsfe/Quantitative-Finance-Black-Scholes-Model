@@ -23,7 +23,8 @@ K = st.number_input("Enter the strike price:", value=100.0)
 # Default start date setup
 default_start_date = st.date_input("Select the start date for stock data:", date.today() - timedelta(days=30))
 default_end_date = st.date_input("Select the end date for stock data:", date.today())
-T = st.number_input("Enter the duration of the option in years:", value=1.0)
+T_days = st.number_input("Enter the duration of the option in days:", min_value=1, max_value=3650, value=1, step=1)
+T = T_days / 365.25  # Convert days to years for calculations
 Vol = st.number_input("Enter the volatility as a decimal:", value=0.2)
 r = st.number_input("Enter the current risk-free rate as a decimal:", value=0.05)
 q = st.number_input("Enter the annual dividend yield as a decimal (e.g., 0.01 for 1%):", value=0.01)
