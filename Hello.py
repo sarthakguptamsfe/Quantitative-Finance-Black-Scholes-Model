@@ -16,17 +16,18 @@ st.title('Quantitative Finance: Black Scholes Model for European Option Pricing'
 # API key for FinancialModelingPrep
 API_KEY = '0uTB4phKEr4dHcB2zJMmVmKUcywpkxDQ'
 
-# User inputs for stock symbol, strike price, etc.
+# User inputs for option pricing
 stock_symbol = st.text_input("Enter the stock symbol (e.g., AAPL for Apple, META for Facebook):", 'AAPL')
+default_date = date(2024, 5, 1)
+selected_date = st.date_input("Select the date for fetching the stock price:", default_date)
 K = st.number_input("Enter the strike price:", value=100.0)
-# Select the date for fetching the stock price
-selected_date = st.date_input("Select the date for fetching the stock price:", date.today())
+option_type = st.selectbox("Choose the option type:", ('call', 'put'))
 days = st.number_input("Enter the duration of the option in days:", min_value=1, max_value=3650, value=1, step=1)
 T = days / 365.25  # Convert days to years for the formula
 Vol = st.number_input("Enter the volatility as a decimal:", value=0.2)
 r = st.number_input("Enter the current risk-free rate as a decimal:", value=0.05)
 q = st.number_input("Enter the annual dividend yield as a decimal (e.g., 0.01 for 1%):", value=0.01)
-option_type = st.selectbox("Choose the option type:", ('call', 'put'))
+
 
 
 # Fetching real-time stock data
