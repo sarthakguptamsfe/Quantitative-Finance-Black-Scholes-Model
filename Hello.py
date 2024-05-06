@@ -12,7 +12,7 @@ st.set_page_config(page_title="Quantitative Finance: Black Scholes Model")
 image_url = "https://i.postimg.cc/bvqxzkwp/abc.jpg"
 st.image(image_url, use_column_width=True)
 # API key for Wrds
-API_KEY = 'deb23639320d545c6b92daaa6ee3c000afb37351'
+API_KEY = '0uTB4phKEr4dHcB2zJMmVmKUcywpkxDQ'
 # User inputs for option pricing
 stock_symbol = st.text_input("Enter the stock symbol (e.g., AAPL for Apple, META for Facebook):", 'AAPL')
 default_date = date(2024, 5, 1)
@@ -27,25 +27,19 @@ q = st.number_input("Enter the annual dividend yield as a decimal (e.g., 0.01 fo
 
 
 
-# Initialize WRDS connection
-conn = wrds.Connection()
-
+# Fetching real-time stock data
 try:
-    # Fetch stock data
-    stock_data = conn.raw_sql(f"SELECT close FROM your_table WHERE date = '{selected_date}' AND stock_symbol = '{stock_symbol}'")
-
-    if stock_data.empty:
+    response = requests.get(f"https://financialmodelingprep.com/api/v3/historical-price-full/{stock_symbol}?from={selected_date}&to={selected_date}&apikey={API_KEY}")
+    data = response.json()
+    if 'historical' not in data or not data['historical']:
         st.error("No data available for the selected date. Please choose another date.")
         S = None
     else:
-        S = stock_data.iloc[0]['close']  # Fetch the closing price of the selected date
+        S = data['historical'][0]['close']  # Fetch the closing price of the selected date
         st.subheader(f"Stock Price of {stock_symbol} on {selected_date}: {S:.2f}")
 except Exception as e:
     st.error(f"Error fetching stock data: {str(e)}")
     S = None
-
-# Close WRDS connection
-conn.close()
 
 # Function to calculate d1 and d2
 def calculate_d1_d2(S, K, T, r, Vol):
