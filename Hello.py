@@ -12,6 +12,10 @@ from py_vollib.black_scholes.greeks import analytical
 # Streamlit page setup
 st.title('Quantitative Finance: Black Scholes Model for European Option Pricing')
 
+# Display the image from Google Drive
+image_url = "https://ibb.co/Tcy1WfB"
+st.image(image_url, caption='Quantitative Finance', use_column_width=True)
+
 # API key for FinancialModelingPrep
 API_KEY = '0uTB4phKEr4dHcB2zJMmVmKUcywpkxDQ'
 
