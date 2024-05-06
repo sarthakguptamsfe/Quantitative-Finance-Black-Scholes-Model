@@ -16,12 +16,13 @@ st.image(image_url, use_column_width=True)
 # API key for FinancialModelingPrep
 API_KEY = '0uTB4phKEr4dHcB2zJMmVmKUcywpkxDQ'
 
-# Default start date setup
-default_start_date = date(2024, 5, 1)
 
 # User inputs for stock symbol, strike price, etc.
 stock_symbol = st.text_input("Enter the stock symbol (e.g., AAPL for Apple, META for Facebook):", 'AAPL')
 K = st.number_input("Enter the strike price:", value=100.0)
+# Default start date setup
+default_start_date = st.date_input("Select the start date for stock data:", date.today() - timedelta(days=30))
+default_end_date = st.date_input("Select the end date for stock data:", date.today())
 T = st.number_input("Enter the duration of the option in years:", value=1.0)
 Vol = st.number_input("Enter the volatility as a decimal:", value=0.2)
 r = st.number_input("Enter the current risk-free rate as a decimal:", value=0.05)
