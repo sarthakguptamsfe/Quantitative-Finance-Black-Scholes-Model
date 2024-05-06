@@ -9,12 +9,9 @@ import matplotlib.pyplot as plt
 from py_vollib.black_scholes import black_scholes
 from py_vollib.black_scholes.greeks import analytical
 
-# Streamlit page setup
-st.title('Quantitative Finance: Black Scholes Model for European Option Pricing')
-
 # Display the image using the direct link
 image_url = "https://i.postimg.cc/bvqxzkwp/abc.jpg"
-st.image(image_url, caption='Header Image', use_column_width=True)
+st.image(image_url, use_column_width=True)
 
 # API key for FinancialModelingPrep
 API_KEY = '0uTB4phKEr4dHcB2zJMmVmKUcywpkxDQ'
